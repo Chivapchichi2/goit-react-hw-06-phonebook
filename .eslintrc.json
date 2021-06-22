@@ -1,0 +1,30 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "extends": ["eslint:recommended", "plugin:react/recommended", "airbnb"],
+  "parser": "babel-eslint",
+  "rules": {
+    "indent": [
+      "off",
+      2,
+      { "VariableDeclarator": { "var": 2, "let": 2, "const": 3 } }
+    ],
+    "no-tabs": 0,
+    "no-trailing-spaces": "off",
+    "react/jsx-indent": ["off", 2, { "checkAttributes": true }],
+    "react/react-in-jsx-scope": "off",
+    "react/destructuring-assignment": "off",
+    "react/state-in-constructor": "off",
+    "react/jsx-filename-extension": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "no-nested-ternary": "warn",
+    "react/prop-types": "warn",
+    "linebreak-style": 0,
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
+  }
+}
