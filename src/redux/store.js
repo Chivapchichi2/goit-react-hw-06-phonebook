@@ -1,17 +1,10 @@
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-const initialState = {
-  contacts: {
-    items: [],
-    filter: '',
-  },
-};
-
-const reducer = (state = initialState, { type, payload }) => {
+const itemsReducer = (state = [], { type, payload }) => {
   switch (type) {
     case 'contacts/AddItem':
-      return state.contacts.items.some(item => item.name === payload[0].name)
+      return state.some(item => item.name === payload[0].name)
         ? // eslint-disable-next-line
           alert(
             `${payload[0].name
@@ -21,31 +14,32 @@ const reducer = (state = initialState, { type, payload }) => {
                 ' ',
               )} is already in contacts. Change contact's name or delete old.`,
           )
-        : {
-            contacts: {
-              ...state.contacts,
-              items: [...state.contacts.items, ...payload],
-            },
-          };
+        : [...state, ...payload];
     case 'contacts/DeleteItem':
-      return {
-        contacts: {
-          ...state.contacts,
-          items: state.contacts.items.filter(({ id }) => id !== payload),
-        },
-      };
+      return state.filter(({ id }) => id !== payload);
+    default:
+      return state;
+  }
+};
+const filterReducer = (state = '', { type, payload }) => {
+  switch (type) {
     case 'contacts/ChangeFilter':
-      return {
-        contacts: {
-          ...state.contacts,
-          filter: payload,
-        },
-      };
+      return payload;
+
     default:
       return state;
   }
 };
 
-const store = createStore(reducer, composeWithDevTools());
+const contactsReducer = combineReducers({
+  items: itemsReducer,
+  filter: filterReducer,
+});
+
+const rootReducer = combineReducers({
+  contacts: contactsReducer,
+});
+
+const store = createStore(rootReducer, composeWithDevTools());
 
 export default store;
