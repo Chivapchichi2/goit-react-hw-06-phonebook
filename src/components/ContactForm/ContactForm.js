@@ -8,12 +8,12 @@ class ContactForm extends Component {
     number: '',
   };
 
-  handleInputChange = (e) => {
+  handleInputChange = e => {
     const { value, name } = e.target;
     this.setState({ [name]: value });
   };
 
-  handleFormSubmit = (e) => {
+  handleFormSubmit = e => {
     e.preventDefault();
     const { name } = this.state;
     const nameToLowerCase = name.toLowerCase();

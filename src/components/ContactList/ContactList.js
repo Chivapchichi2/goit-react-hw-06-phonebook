@@ -5,7 +5,7 @@ import styles from './ContactList.module.css';
 
 const ContactList = ({ contacts, onDelete }) => {
   let letter = '';
-  const shouldWriteLetter = (name) => {
+  const shouldWriteLetter = name => {
     if (name.charAt(0).toUpperCase() !== letter) {
       letter = name.charAt(0).toUpperCase();
       return true;
