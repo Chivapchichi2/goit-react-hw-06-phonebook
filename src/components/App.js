@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uid } from 'uuid';
 import { connect } from 'react-redux';
-import actions from '../redux/actions';
+import actions from '../redux/contacts/contacts-actions';
 import ContactForm from './ContactForm';
 import ContactList from './ContactList';
 import Container from './Container';
@@ -10,7 +10,6 @@ import Filter from './Filter';
 import Header from './Header';
 import Notification from './Notification';
 import Section from './Section/Section';
-// import store from '../redux/store';
 
 const App = ({ filter, items, onSubmit, changeFilter, deleteContact }) => {
   const cleanFilter = filter.toLowerCase();

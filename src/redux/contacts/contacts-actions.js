@@ -1,15 +1,17 @@
+import contactsTypes from './contacts-types';
+
 const addContact = array => ({
-  type: 'contacts/AddItem',
+  type: contactsTypes.ADD_ITEM,
   payload: array,
 });
 
 const deleteContact = id => ({
-  type: 'contacts/DeleteItem',
+  type: contactsTypes.DELETE_ITEM,
   payload: id,
 });
 
 const changeFilter = value => ({
-  type: 'contacts/ChangeFilter',
+  type: contactsTypes.CHANGE_FILTER,
   payload: value,
 });
 
