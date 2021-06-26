@@ -18,9 +18,21 @@ class ContactForm extends Component {
   handleFormSubmit = e => {
     e.preventDefault();
     const { name } = this.state;
+    const { items } = this.props;
     const nameToLowerCase = name.toLowerCase();
-    this.props.onSubmit({ ...this.state, name: nameToLowerCase });
+    if (items.some(item => item.name === nameToLowerCase)) {
+      // eslint-disable-next-line
+      return alert(
+        `${nameToLowerCase
+          .split(' ')
+          .map(string => string.charAt(0).toUpperCase() + string.slice(1))
+          .join(
+            ' ',
+          )} is already in contacts. Change contact's name or delete old.`,
+      );
+    }
     this.setState({ name: '', number: '' });
+    return this.props.onSubmit({ ...this.state, name: nameToLowerCase });
   };
 
   render() {
@@ -65,7 +77,12 @@ class ContactForm extends Component {
 
 ContactForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  items: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
+
+const mapStateToProps = state => ({
+  items: state.contacts.items,
+});
 
 const mapDispatchToProps = dispatch => ({
   onSubmit: ({ name, number }) =>
@@ -77,4 +94,4 @@ const mapDispatchToProps = dispatch => ({
     ),
 });
 
-export default connect(null, mapDispatchToProps)(ContactForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
