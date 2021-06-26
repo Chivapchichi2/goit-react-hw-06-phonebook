@@ -1,35 +1,30 @@
 import { combineReducers } from 'redux';
-import contactsTypes from './contacts-types';
+import { createReducer } from '@reduxjs/toolkit';
+import actions from './contacts-actions';
 
-const itemsReducer = (state = [], { type, payload }) => {
-  switch (type) {
-    case contactsTypes.ADD_ITEM:
-      return state.some(item => item.name === payload[0].name)
-        ? // eslint-disable-next-line
+const itemsReducer = createReducer([], {
+  [actions.addContact]: (state, { payload }) =>
+    state.some(item => item.name === payload.name)
+      ? (() => {
+          // eslint-disable-next-line
           alert(
-            `${payload[0].name
+            `${payload.name
               .split(' ')
               .map(string => string.charAt(0).toUpperCase() + string.slice(1))
               .join(
                 ' ',
               )} is already in contacts. Change contact's name or delete old.`,
-          )
-        : [...state, ...payload];
-    case contactsTypes.DELETE_ITEM:
-      return state.filter(({ id }) => id !== payload);
-    default:
-      return state;
-  }
-};
-const filterReducer = (state = '', { type, payload }) => {
-  switch (type) {
-    case contactsTypes.CHANGE_FILTER:
-      return payload;
+          );
+          return state;
+        })()
+      : [...state, payload],
+  [actions.deleteContact]: (state, { payload }) =>
+    state.filter(({ id }) => id !== payload),
+});
 
-    default:
-      return state;
-  }
-};
+const filterReducer = createReducer('', {
+  [actions.changeFilter]: (_, { payload }) => payload,
+});
 
 const contactsReducer = combineReducers({
   items: itemsReducer,

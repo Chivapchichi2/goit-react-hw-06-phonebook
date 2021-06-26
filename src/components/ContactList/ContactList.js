@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import actions from '../../redux/contacts/contacts-actions';
 import Contact from './Contact';
 import styles from './ContactList.module.css';
 
-const ContactList = ({ contacts, onDelete }) => {
+const ContactList = ({ contacts, deleteContact }) => {
   let letter = '';
   const shouldWriteLetter = name => {
     if (name.charAt(0).toUpperCase() !== letter) {
@@ -21,7 +23,12 @@ const ContactList = ({ contacts, onDelete }) => {
               {letter}
             </p>
           )}
-          <Contact id={id} name={name} number={number} onDelete={onDelete} />
+          <Contact
+            id={id}
+            name={name}
+            number={number}
+            onDelete={deleteContact}
+          />
         </div>
       ))}
     </ul>
@@ -30,6 +37,11 @@ const ContactList = ({ contacts, onDelete }) => {
 
 ContactList.propTypes = {
   contacts: PropTypes.arrayOf(PropTypes.shape).isRequired,
-  onDelete: PropTypes.func.isRequired,
+  deleteContact: PropTypes.func.isRequired,
 };
-export default ContactList;
+
+const mapDispatchToProps = dispatch => ({
+  deleteContact: idContact => dispatch(actions.deleteContact(idContact)),
+});
+
+export default connect(null, mapDispatchToProps)(ContactList);
